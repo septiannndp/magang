@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auto Result Email</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+    })();
+
+    function sendResultEmail(event) {
+      event.preventDefault();
+
+      // Get form values
+      const num1 = parseFloat(document.getElementById("num1").value);
+      const num2 = parseFloat(document.getElementById("num2").value);
+      const num3 = parseFloat(document.getElementById("num3").value);
+      const email = document.getElementById("email").value;
+
+      // Your custom formula
+      const result = num1 * num2 + num3;
+
+      // Send email using EmailJS
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        to_email: email,
+        result: result,
+        num1: num1,
+        num2: num2,
+        num3: num3
+      }).then(function(response) {
+        alert("Result sent to your email!");
+      }, function(error) {
+        alert("Failed to send email: " + error.text);
+      });
+    }
+  </script>
+</head>
+<body>
+  <form onsubmit="sendResultEmail(event)">
+    <label>Number 1:</label>
+    <input type="number" id="num1" required><br><br>
+    <label>Number 2:</label>
+    <input type="number" id="num2" required><br><br>
+    <label>Number 3:</label>
+    <input type="number" id="num3" required><br><br>
+    <label>Your Email:</label>
+    <input type="email" id="email" required><br><br>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
